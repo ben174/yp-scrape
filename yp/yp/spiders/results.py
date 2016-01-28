@@ -1,6 +1,7 @@
 import urllib
 
 import scrapy
+from scrapy.http import Request
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from yp.items import ResultItem
@@ -15,14 +16,12 @@ class ResultSpider(scrapy.Spider):
         self.current_page = 1
         self.query = query
         self.location = location
+        self.url = self._get_url(self.query, self.location)
         super(ResultSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
-        while True:
-            url = self._get_url(self.query, self.location, page=self.current_page)
-            yield scrapy.Request(url, self.parse)
-            self.current_page += 1
-
+         while self.url:
+             yield scrapy.Request(self.url, self.parse)
 
     def _get_url(self, query, location, page=None):
         params = { 'search_terms' : query, 'geo_location_terms' : location }
@@ -57,5 +56,6 @@ class ResultSpider(scrapy.Spider):
             #item['snippet'] = scrapy.Field()
             #item['result_num'] = scrapy.Field()
             items.append(item)
-        return items
-
+            self.current_page += 1
+        self.url = selector.css('.next.ajax-page').xpath('@href').extract_first()
+        print 'Next URL: ' + self.url
