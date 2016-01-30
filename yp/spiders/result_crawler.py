@@ -21,7 +21,6 @@ class ResultSpider(CrawlSpider):
         self.query = query
         self.location = location
         self.start_urls = [self._get_url(query, location)]
-        self.current_page = 1
         self.socket = socket
         super(ResultSpider, self).__init__(*args, **kwargs)
 
