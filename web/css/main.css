@@ -1,0 +1,13 @@
+
+.result-item {
+    min-height: 216px;
+    border: solid 1px #AAA;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    background-color: #F6F6F6;
+}
+
+h3 {
+    margin-top: 5px;
+}

@@ -12,10 +12,11 @@ ypScrapeApp.controller('YpScrapeCtrl', function ($scope, $http) {
 
     $scope.jobid = null;
 
+    $scope.state = null;
+
     $scope.runQuery = function () {
-        // http://192.168.99.100:32768/schedule.json -d project=yp -d spider=ypcrawl -d query=tacos
+        $scope.items = [];
         url = '/job';
-        console.log(url);
         $http({
             method: 'POST',
             url: url,
@@ -37,6 +38,7 @@ ypScrapeApp.controller('YpScrapeCtrl', function ($scope, $http) {
             url: '/job/' + $scope.jobid
         }).then(function successCallback(response) {
             console.log("Job state: " + response.data.state);
+            $scope.state = response.data.state;
             if(response.data.state == 'running' || response.data.state == 'finished') {
                 $scope.getResults();
             }
@@ -58,7 +60,8 @@ ypScrapeApp.controller('YpScrapeCtrl', function ($scope, $http) {
     };
 
     $scope.webSocket = function () {
-        // unused - abandoned attempt to do this through websockets
+        // unused - abandoned attempt to do this through websockets, handling concurrency
+        //   ended up getting messy
         var ws = new WebSocket("ws://127.0.0.1:8888/scrape/cupcake/94536");
         ws.onmessage = function (data) {
             $scope.$apply(function () {

@@ -8,6 +8,14 @@ from tornado.web import StaticFileHandler
 from yp.spiders.result_crawler import ResultSpider
 
 
+
+############################################################
+#
+# Unfortunately, the CORS restrictions on scrapyd meant
+# I had to basically proxy all their API calls
+#
+############################################################
+
 class ScrapyDLogHandler(tornado.web.RequestHandler):
     def get(self, job):
         lines = requests.get('http://192.168.99.100:32768/items/yp/ypcrawl/{}.jl'.format(job)).text.splitlines()
