@@ -18,7 +18,7 @@ from yp.spiders.result_crawler import ResultSpider
 
 class ScrapyDLogHandler(tornado.web.RequestHandler):
     def get(self, job):
-        lines = requests.get('http://192.168.99.100:32768/items/yp/ypcrawl/{}.jl'.format(job)).text.splitlines()
+        lines = requests.get('http://scrapyd:6800/items/yp/ypcrawl/{}.jl'.format(job)).text.splitlines()
         ret = []
         for line in lines:
             try:
@@ -32,11 +32,11 @@ class ScrapyDLogHandler(tornado.web.RequestHandler):
 class ScrapyDJobHandler(tornado.web.RequestHandler):
     def post(self):
         payload = json.loads(self.request.body)
-        response = requests.post('http://192.168.99.100:32768/schedule.json', data=payload)
+        response = requests.post('http://scrapyd:6800/schedule.json', data=payload)
         self.write(response.text)
 
     def get(self, job=None):
-        response = requests.get('http://192.168.99.100:32768/listjobs.json?project=yp').json()
+        response = requests.get('http://scrapyd:6800/listjobs.json?project=yp').json()
         states = ['running', 'finished', 'pending']
         ret = {'state': None}
         for state in states:
