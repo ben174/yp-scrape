@@ -66,5 +66,5 @@ if __name__ == "__main__":
         (r'/(.*)', StaticFileHandler, {'path': 'web/'}),
     ], debug=True)
     http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8888)
+    http_server.listen(8000)
     tornado.ioloop.IOLoop.instance().start()
