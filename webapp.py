@@ -63,8 +63,11 @@ if __name__ == "__main__":
         (r'/log/(.*)', ScrapyDLogHandler),
         (r'/job', ScrapyDJobHandler),
         (r'/job/(.*)', ScrapyDJobHandler),
-        (r'/(.*)', StaticFileHandler, {'path': 'web/'}),
+        (r'/(.*)', StaticFileHandler, {
+            'path': 'web/',
+            'default_filename': 'index.html'
+        }),
     ], debug=True)
     http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8000)
+    http_server.listen(8495)
     tornado.ioloop.IOLoop.instance().start()

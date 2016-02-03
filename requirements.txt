@@ -14,7 +14,9 @@ pyasn1-modules==0.0.8
 pycparser==2.14
 pyOpenSSL==0.15.1
 queuelib==1.4.2
+requests==2.9.1
 Scrapy==1.0.4
+scrapyd-client==1.0.1
 service-identity==14.0.0
 singledispatch==3.4.0.3
 six==1.10.0
@@ -23,5 +25,3 @@ Twisted==15.5.0
 w3lib==1.13.0
 wheel==0.24.0
 zope.interface==4.1.3
-requests
-scrapyd-client

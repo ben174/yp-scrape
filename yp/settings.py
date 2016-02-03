@@ -63,6 +63,8 @@ DOWNLOAD_DELAY=3
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'yp.pipelines.ResultPipeline': 300,
+    'yp.pipelines.JsonFilePipeline': 350,
+    'yp.pipelines.JsonS3Pipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -83,3 +85,17 @@ UTOTHROTTLE_DEBUG=True
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# For JsonFilePipeline
+JSON_PATH = 'json_output/'
+
+
+# For JsonS3Pipeline
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
+S3_BUCKET = 'yp-scrape'
+
