@@ -51,6 +51,7 @@ class ResultSpider(CrawlSpider):
         for result in results:
             item = ResultItem()
             item['business_name'] = result.css('.business-name').xpath('text()').extract_first()
+            item['business_id'] = None
 
             # some useful json data in here
             data_model = result.css('div.mybook-actions').xpath('@data-model').extract_first()

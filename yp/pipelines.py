@@ -51,16 +51,23 @@ class JsonFilePipeline(object):
 class JsonS3Pipeline(object):
     def __init__(self):
         bucket_name = settings.S3_BUCKET
-        conn = boto.connect_s3(
-            settings.AWS_ACCESS_KEY_ID,
-            settings.AWS_SECRET_ACCESS_KEY
-        )
-        self.bucket = conn.get_bucket(bucket_name)
+        self.bucket = None
+        try:
+            conn = boto.connect_s3(
+                settings.AWS_ACCESS_KEY_ID,
+                settings.AWS_SECRET_ACCESS_KEY
+            )
+            self.bucket = conn.get_bucket(bucket_name)
+        except boto.exception.S3ResponseError as e:
+            print 'Error connecting to S3 bucket. Please check your settings.'
 
     def process_item(self, item, spider):
-        k = Key(self.bucket)
-        k.key = item.get_filename(suffix='.json')
-        k.set_contents_from_string(item.get_json())
+        if self.bucket:
+            k = Key(self.bucket)
+            k.key = item.get_filename(suffix='.json')
+            k.set_contents_from_string(item.get_json())
+        else:
+            print 'Error in JsonS3Pipeline. Bucket not initialized.'
         return item
 
 
